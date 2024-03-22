@@ -71,4 +71,4 @@ prediction = wine_quality_rfr.predict(df)
 
 st.text("")  # Add an empty space to align the header to the right
 st.subheader('Wine Quality')
-st.subheader(str(np.round(prediction[0], 2))))
+st.subheader(str(np.round(prediction[0], 2)))
