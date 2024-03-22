@@ -39,9 +39,13 @@ def user_input_features():
 
     features = pd.DataFrame(data, index=[0])
     return features
+
 df = user_input_features()
 st.subheader('Input parameters')
 st.write(df)
+
+# random forest model
+wine_quality_rfr = RandomForestRegressor()
 
 # reading csv file
 with open("winequality-red.csv", "r") as f:
@@ -54,15 +58,17 @@ data.columns = [col.replace('"', '') for col in data.columns]  # Remove double q
 data = data.astype(float)
 
 # create X and Y arrays
-X = np.array(data.iloc[:, :-1].values)  # select all rows and all columns except the last one
-Y = np.array(data.iloc[:, -1].values)  # select all rows and the last column (target variable)
+# create X and Y arrays
+X = data.iloc[:, :-1].values  # select all rows and all columns except the last one
+Y = data.iloc[:, -1].values  # select all rows and the last column (target variable)
+feature_names = data.columns[:-1]  # get the feature names
 
-# random forest model
-wine_quality_rfr = RandomForestRegressor()
-wine_quality_rfr.fit(X, Y)
+# fitting the model
 
+wine_quality_rfr.fit(X, Y, feature_names=feature_names)
+# prediction
 prediction = wine_quality_rfr.predict(df)
 
 st.text("")  # Add an empty space to align the header to the right
 st.subheader('Wine Quality')
-st.subheader(str(np.round(prediction[0], 2)))
+st.subheader(str(np.round(prediction[0], 2))))
